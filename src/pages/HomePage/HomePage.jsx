@@ -1,31 +1,10 @@
-import { useEffect, useState } from "react"
-import { getMovies } from "../../api/movies"
 import MovieGrid from "../../components/MovieGrid/MovieGrid"
 import StatusMessage from "../../components/StatusMessage/StatusMessage"
+import { useMovies } from "../../hooks/useMovies"
 import styles from "./HomePage.module.css"
 
 function HomePage() {
-  const [movies, setMovies] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState("")
-
-  useEffect(() => {
-    async function loadMovies() {
-      try {
-        setLoading(true)
-        setError("")
-        const data = await getMovies()
-        setMovies(data)
-      } catch (fetchError) {
-        setError("No se pudo cargar el catalogo.")
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    loadMovies()
-  }, [])
-
+  const { movies, loading, error } = useMovies()
   return (
     <main className={styles.page}>
       <section className={styles.hero}>
